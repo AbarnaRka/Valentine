@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    max-width: 400px;
+}
+
+h1 {
+    color: #d6336c;
+}
+
+p {
+    color: #555;
+    font-size: 16px;
+}
+
+.buttons {
+    margin-top: 25px;
+    position: relative;
+}
+
+button {
+    padding: 10px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+#no {
+    background: #adb5bd;
+    color: white;
+    position: absolute;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Hey ❤️</h1>
+    <p>
+        Roses are red,<br>
+        Violets are blue,<br>
+        Every moment feels special,<br>
+        When it's spent with you 😊
+    </p>
+
+    <h2>Will you be my Valentine?</h2>
+
+    <div class="buttons">
+        <button id="yes" onclick="yesClicked()">YES 💖</button>
+        <button id="no" onmouseover="moveNo()">NO 😜</button>
+    </div>
+</div>
+
+<script>
+function yesClicked() {
+    document.body.innerHTML = `
+        <div style="
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:'Segoe UI';
+            background:#ffdde1;
+            text-align:center;">
+            <h1>💘 Yay! You made my day! 💘<br>Happy Valentine’s Day 💖</h1>
+        </div>`;
+}
+
+function moveNo() {
+    const noBtn = document.getElementById("no");
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+</script>
+
+</body>
+</html>
