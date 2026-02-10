@@ -5,7 +5,7 @@
 <title>Just For You 💖</title>
 
 <style>
-/* ================= GLOBAL ================= */
+/* ===== GLOBAL ===== */
 body {
     margin: 0;
     height: 100vh;
@@ -14,7 +14,7 @@ body {
     overflow: hidden;
 }
 
-/* ================= HEARTS ================= */
+/* ===== FLOATING HEARTS ===== */
 .heart {
     position: absolute;
     font-size: 18px;
@@ -26,7 +26,7 @@ body {
     to { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* ================= ENVELOPE ================= */
+/* ===== ENVELOPE ===== */
 .envelope {
     width: 360px;
     height: 240px;
@@ -35,16 +35,197 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
-    perspective: 1200px;
 }
 
-/* envelope back */
-.envelope-back {
+/* envelope body */
+.env-body {
+    position: absolute;
     width: 100%;
     height: 100%;
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 18px;
     box-shadow: 0 25px 50px rgba(0,0,0,0.45);
-    position: absolute;
     z-index: 1;
 }
+
+/* side folds */
+.env-left,
+.env-right {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 120px solid transparent;
+    border-bottom: 120px solid transparent;
+    z-index: 2;
+}
+
+.env-left {
+    left: 0;
+    border-right: 180px solid #f1f1f1;
+}
+
+.env-right {
+    right: 0;
+    border-left: 180px solid #f1f1f1;
+}
+
+/* top flap */
+.env-flap {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 180px solid transparent;
+    border-right: 180px solid transparent;
+    border-top: 120px solid #ff4d6d;
+    transform-origin: top;
+    transition: transform 1s ease;
+    z-index: 4;
+}
+
+/* letter */
+.letter {
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    left: 5%;
+    top: 10%;
+    background: #fffdf8;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    z-index: 3;
+}
+
+/* OPEN STATE */
+.envelope.open .env-flap {
+    transform: rotateX(180deg);
+}
+
+.envelope.open .letter {
+    opacity: 1;
+}
+
+/* ===== STORY ===== */
+#story p {
+    color: #444;
+    font-size: 16px;
+    margin: 6px 0;
+}
+
+/* ===== QUESTION ===== */
+#question {
+    display: none;
+    margin-top: 12px;
+}
+
+button {
+    padding: 10px 22px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    margin: 8px;
+}
+
+#yes {
+    background: #ff4d6d;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255,77,109,0.8);
+}
+
+#no {
+    background: #adb5bd;
+    color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="envelope" id="env" onclick="openEnvelope()">
+    <div class="env-flap"></div>
+    <div class="env-left"></div>
+    <div class="env-right"></div>
+    <div class="env-body"></div>
+
+    <div class="letter">
+        <div id="story"></div>
+        <div id="question">
+            <h3>So tell me… 💖</h3>
+            <h3>Will you be my Valentine?</h3>
+            <button id="yes" onclick="yesClicked(event)">YES 💘</button>
+            <button id="no" onmouseover="moveNo()">NO 😜</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* HEARTS */
+function spawnHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = ["💖","💗","💓","💘"][Math.floor(Math.random()*4)];
+    h.style.left = Math.random()*innerWidth + "px";
+    h.style.top = innerHeight + "px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),9000);
+}
+setInterval(spawnHeart, 300);
+
+/* OPEN */
+let opened = false;
+function openEnvelope() {
+    if (opened) return;
+    opened = true;
+    document.getElementById("env").classList.add("open");
+    showStory();
+}
+
+/* STORY */
+const lines = [
+    "Hey You 💌",
+    "I wanted to say this properly…",
+    "Somehow, days feel warmer with you.",
+    "Smiles come easier.",
+    "Silences feel comfortable.",
+    "And moments feel… right ✨",
+    "So I was wondering ❤️"
+];
+let i = 0;
+const storyDiv = document.getElementById("story");
+
+function showStory() {
+    if (i < lines.length) {
+        const p = document.createElement("p");
+        p.textContent = lines[i++];
+        storyDiv.appendChild(p);
+        setTimeout(showStory, 1000);
+    } else {
+        document.getElementById("question").style.display = "block";
+    }
+}
+
+/* NO button */
+function moveNo() {
+    const no = document.getElementById("no");
+    no.style.transform =
+        `translate(${Math.random()*120-60}px, ${Math.random()*40-20}px)`;
+}
+
+/* YES */
+function yesClicked(e) {
+    e.stopPropagation();
+    document.querySelector(".letter").innerHTML = `
+        <h2>💖 You Said YES 💖</h2>
+        <p>I’ll remember this moment forever ✨</p>
+        <h3>Happy Valentine’s Day 🌹</h3>
+    `;
+}
+</script>
+
+</body>
+</html>
