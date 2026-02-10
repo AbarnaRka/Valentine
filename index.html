@@ -2,61 +2,92 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Just For You 💖</title>
+<title>For You 💖</title>
 
 <style>
 /* ================== GLOBAL ================== */
 body {
     margin: 0;
     height: 100vh;
+    background: radial-gradient(circle, #1b1e44, #070815);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at center, #1a1d3b, #080a18);
     overflow: hidden;
-    cursor: pointer;
 }
 
-/* ================== HEART UNIVERSE ================== */
+/* ================== FLOATING HEARTS ================== */
 .heart {
     position: absolute;
-    font-size: 16px;
-    opacity: 0.85;
-    animation: float 9s linear infinite;
+    font-size: 18px;
+    animation: float 8s linear infinite;
+    opacity: 0.9;
 }
 
 @keyframes float {
     from { transform: translateY(0) scale(1); opacity: 1; }
-    to { transform: translateY(-120vh) scale(1.7); opacity: 0; }
+    to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
 }
 
 /* ================== ENVELOPE ================== */
 .envelope {
-    width: 360px;
-    height: 240px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 260px;
+    position: relative;
     cursor: pointer;
-    z-index: 5;
 }
 
-/* Envelope body (this IS the letter now) */
-.letter {
+/* BACK */
+.envelope-back {
     position: absolute;
     inset: 0;
-    background: #fffdf8;
+    background: #ffd6e0;
     border-radius: 18px;
-    padding: 24px;
-    text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
-    box-sizing: border-box;
-
-    transform: translateY(40px);
-    opacity: 0;
-    transition: all 1.4s ease;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.45);
 }
 
-/* Paper texture */
+/* FRONT POCKET */
+.envelope-front {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 65%;
+    background: #ff8fab;
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    border-radius: 0 0 18px 18px;
+    z-index: 4;
+}
+
+/* FLAP */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 190px solid transparent;
+    border-right: 190px solid transparent;
+    border-bottom: 130px solid #ff4d6d;
+    transform-origin: top;
+    transition: transform 1s ease;
+    z-index: 6;
+}
+
+/* ================== LETTER ================== */
+.letter {
+    position: absolute;
+    inset: 12px;
+    background: #fffdf8;
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    transform: translateY(60px);
+    opacity: 0;
+    transition: all 1.2s ease;
+    z-index: 3;
+}
+
+/* paper texture */
 .letter::before {
     content: "";
     position: absolute;
@@ -69,31 +100,17 @@ body {
             transparent 1px,
             transparent 4px
         );
-    border-radius: 18px;
+    border-radius: 14px;
     pointer-events: none;
 }
 
-/* Flap */
-.flap {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    border-top: 125px solid #ff4d6d;
-    top: 0;
-    transform-origin: top;
-    transition: transform 1s ease;
-    z-index: 6;
-}
-
-/* Open state */
-.envelope.open .flap {
+/* OPEN STATE */
+.envelope.open .envelope-flap {
     transform: rotateX(180deg);
 }
 
 .envelope.open .letter {
-    transform: translateY(0);
+    transform: translateY(-40px);
     opacity: 1;
 }
 
@@ -102,7 +119,7 @@ body {
     font-size: 16px;
     color: #444;
     margin: 8px 0;
-    animation: fadeIn 1s ease forwards;
+    animation: fadeIn 0.8s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -112,8 +129,7 @@ body {
 
 /* ================== QUESTION ================== */
 #question {
-    display: none;
-    margin-top: 12px;
+    margin-top: 16px;
 }
 
 button {
@@ -121,39 +137,19 @@ button {
     border: none;
     border-radius: 25px;
     font-size: 15px;
-    cursor: pointer;
     margin: 8px;
+    cursor: pointer;
 }
 
 #yes {
     background: #ff4d6d;
     color: white;
     box-shadow: 0 0 22px rgba(255,77,109,0.9);
-    animation: glow 2s infinite;
-}
-
-@keyframes glow {
-    0% { box-shadow: 0 0 10px rgba(255,77,109,0.6); }
-    50% { box-shadow: 0 0 30px rgba(255,77,109,1); }
-    100% { box-shadow: 0 0 10px rgba(255,77,109,0.6); }
 }
 
 #no {
     background: #adb5bd;
     color: white;
-}
-
-/* ================== CONFETTI ================== */
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    animation: fall 2.2s linear forwards;
-}
-
-@keyframes fall {
-    from { transform: translateY(0) rotate(0deg); opacity: 1; }
-    to { transform: translateY(120vh) rotate(720deg); opacity: 0; }
 }
 </style>
 </head>
@@ -161,100 +157,80 @@ button {
 <body>
 
 <div class="envelope" id="env" onclick="openEnvelope()">
-    <div class="flap"></div>
+    <div class="envelope-back"></div>
 
     <div class="letter">
         <div id="story"></div>
 
-        <div id="question">
+        <div id="question" style="display:none;">
             <h3>So tell me… 💖</h3>
             <h3>Will you be my Valentine?</h3>
             <button id="yes" onclick="yesClicked(event)">YES 💘</button>
             <button id="no" onmouseover="moveNo()">NO 😜</button>
         </div>
     </div>
+
+    <div class="envelope-front"></div>
+    <div class="envelope-flap"></div>
 </div>
 
 <script>
-/* HEART UNIVERSE */
-function spawnHeart(x = Math.random()*innerWidth, y = innerHeight) {
+/* FLOATING HEARTS */
+function heart() {
     const h = document.createElement("div");
     h.className = "heart";
-    h.textContent = ["💖","💗","💓","💘"][Math.floor(Math.random()*4)];
-    h.style.left = x + "px";
-    h.style.top = y + "px";
-    h.style.fontSize = (14 + Math.random()*24) + "px";
-    h.style.animationDuration = (6 + Math.random()*6) + "s";
+    h.textContent = ["💖","💘","💗","💓"][Math.floor(Math.random()*4)];
+    h.style.left = Math.random()*innerWidth + "px";
+    h.style.top = innerHeight + "px";
+    h.style.fontSize = (16 + Math.random()*20) + "px";
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), 10000);
+    setTimeout(() => h.remove(), 8000);
 }
-setInterval(() => spawnHeart(), 280);
-
-/* OPEN ENVELOPE */
-function openEnvelope() {
-    document.getElementById("env").classList.add("open");
-    showStory();
-}
+setInterval(heart, 300);
 
 /* STORY */
 const lines = [
     "Hey You 💌",
     "I wanted to say this properly…",
-    "Somehow, days feel warmer with you.",
+    "Days feel warmer with you.",
     "Smiles come easier.",
     "Silences feel comfortable.",
-    "And moments feel… right ✨",
+    "Moments feel… right ✨",
     "So I was wondering ❤️"
 ];
 
-let idx = 0;
-const storyDiv = document.getElementById("story");
+let i = 0;
+const story = document.getElementById("story");
+
+function openEnvelope() {
+    document.getElementById("env").classList.add("open");
+    showStory();
+}
 
 function showStory() {
-    if (idx < lines.length) {
+    if (i < lines.length) {
         const p = document.createElement("p");
-        p.textContent = lines[idx++];
-        storyDiv.appendChild(p);
-        setTimeout(showStory, 1200);
+        p.textContent = lines[i++];
+        story.appendChild(p);
+        setTimeout(showStory, 1000);
     } else {
         document.getElementById("question").style.display = "block";
     }
 }
 
-/* NO BUTTON */
+/* BUTTONS */
 function moveNo() {
-    const no = document.getElementById("no");
-    no.style.transform =
-        `translate(${Math.random()*140-70}px, ${Math.random()*60-30}px)`;
+    document.getElementById("no").style.transform =
+        `translate(${Math.random()*120-60}px,${Math.random()*50-25}px)`;
 }
 
-/* YES CLICK */
 function yesClicked(e) {
     e.stopPropagation();
-    confetti();
-
     document.querySelector(".letter").innerHTML = `
         <h2>💖 You Said YES 💖</h2>
-        <p>
-            I’ll remember this moment forever ✨<br>
-            Thank you for choosing this story with me.
-        </p>
+        <p>This made my day brighter ✨</p>
         <h3>Happy Valentine’s Day 🌹</h3>
     `;
-}
-
-/* CONFETTI */
-function confetti() {
-    for (let i=0;i<160;i++) {
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.style.left = Math.random()*100 + "vw";
-        c.style.background =
-            `hsl(${Math.random()*360},100%,50%)`;
-        c.style.animationDuration = (1.5+Math.random())+"s";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),2200);
-    }
 }
 </script>
 
