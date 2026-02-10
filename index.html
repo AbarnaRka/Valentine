@@ -12,20 +12,18 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: radial-gradient(circle at center, #1a1d3b, #080a18);
     overflow: hidden;
-    cursor: pointer;
 }
 
-/* ================= HEART UNIVERSE ================= */
+/* ================= HEARTS ================= */
 .heart {
     position: absolute;
-    font-size: 16px;
-    opacity: 0.85;
+    font-size: 18px;
+    opacity: 0.8;
     animation: float 9s linear infinite;
 }
-
 @keyframes float {
-    from { transform: translateY(0) scale(1); opacity: 1; }
-    to { transform: translateY(-120vh) scale(1.7); opacity: 0; }
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
 }
 
 /* ================= ENVELOPE ================= */
@@ -37,245 +35,16 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
-    z-index: 10;
+    perspective: 1200px;
 }
 
-/* envelope body */
-.envelope-body {
+/* envelope back */
+.envelope-back {
     width: 100%;
     height: 100%;
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 25px 50px rgba(0,0,0,0.45);
     position: absolute;
-    z-index: 2;
-}
-
-/* envelope flap */
-.flap {
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 0;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    border-top: 120px solid #ff4d6d;
-    transform-origin: top;
-    transition: transform 1s ease;
-    z-index: 3;
-}
-
-/* open animation */
-.envelope.open .flap {
-    transform: rotateX(180deg);
-}
-
-/* ================= LETTER ================= */
-.letter {
-    position: absolute;
-    width: 90%;
-    height: auto;
-    background: #fffdf8;
-    top: 18%;
-    left: 5%;
-    border-radius: 14px;
-    padding: 22px;
-    text-align: center;
-    transform: translateY(80px);
-    opacity: 0;
-    transition: all 1.4s ease;
     z-index: 1;
 }
-
-.envelope.open .letter {
-    transform: translateY(-120px);
-    opacity: 1;
-}
-
-/* ================= STORY ================= */
-#story p {
-    font-size: 16px;
-    color: #444;
-    margin: 8px 0;
-    animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ================= QUESTION ================= */
-#question {
-    display: none;
-    margin-top: 16px;
-}
-
-#question h3 {
-    color: #ffffff;
-    margin: 8px 0;
-}
-
-.buttons {
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px 22px;
-    border: none;
-    border-radius: 25px;
-    font-size: 15px;
-    cursor: pointer;
-    margin: 8px;
-}
-
-/* YES button */
-#yes {
-    background: #ff4d6d;
-    color: white;
-    box-shadow: 0 0 22px rgba(255,77,109,0.9);
-    animation: glow 2s infinite;
-}
-
-@keyframes glow {
-    0% { box-shadow: 0 0 10px rgba(255,77,109,0.6); }
-    50% { box-shadow: 0 0 30px rgba(255,77,109,1); }
-    100% { box-shadow: 0 0 10px rgba(255,77,109,0.6); }
-}
-
-/* NO button */
-#no {
-    background: #adb5bd;
-    color: white;
-    position: relative;
-}
-
-/* ================= CONFETTI ================= */
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    animation: fall 2.2s linear forwards;
-}
-
-@keyframes fall {
-    from { transform: translateY(0) rotate(0deg); opacity: 1; }
-    to { transform: translateY(120vh) rotate(720deg); opacity: 0; }
-}
-</style>
-</head>
-
-<body>
-
-<div class="envelope" id="env" onclick="openEnvelope()">
-    <div class="flap"></div>
-    <div class="envelope-body"></div>
-
-    <div class="letter">
-        <div id="story"></div>
-
-        <div id="question">
-            <h3>So tell me… 💖</h3>
-            <h3>Will you be my Valentine?</h3>
-            <div class="buttons">
-                <button id="yes" onclick="yesClicked(event)">YES 💘</button>
-                <button id="no" onmouseover="moveNo()">NO 😜</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-/* ========== HEART UNIVERSE ========== */
-function spawnHeart(x = Math.random()*innerWidth, y = innerHeight) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.textContent = ["💖","💗","💓","💘"][Math.floor(Math.random()*4)];
-    h.style.left = x + "px";
-    h.style.top = y + "px";
-    h.style.fontSize = (14 + Math.random()*24) + "px";
-    h.style.animationDuration = (6 + Math.random()*6) + "s";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 10000);
-}
-setInterval(() => spawnHeart(), 280);
-
-/* ========== ENVELOPE OPEN ========== */
-let opened = false;
-function openEnvelope() {
-    if (opened) return;
-    opened = true;
-    document.getElementById("env").classList.add("open");
-    showStory();
-}
-
-/* ========== STORY MODE ========== */
-const lines = [
-    "Hey You 💌",
-    "I wanted to say this properly…",
-    "Somehow, days feel warmer with you.",
-    "Smiles come easier.",
-    "Silences feel comfortable.",
-    "And moments feel… right ✨",
-    "So I was wondering ❤️"
-];
-
-let idx = 0;
-const storyDiv = document.getElementById("story");
-
-function showStory() {
-    if (idx < lines.length) {
-        const p = document.createElement("p");
-        p.textContent = lines[idx++];
-        storyDiv.appendChild(p);
-        setTimeout(showStory, 1200);
-    } else {
-        document.getElementById("question").style.display = "block";
-    }
-}
-
-/* ========== NO BUTTON ========== */
-function moveNo() {
-    const no = document.getElementById("no");
-    no.style.transform =
-        `translate(${Math.random()*140-70}px, ${Math.random()*60-30}px)`;
-}
-
-/* ========== YES CLICKED ========== */
-function yesClicked(e) {
-    e.stopPropagation();
-    confetti();
-    heartBurst();
-
-    document.querySelector(".letter").innerHTML = `
-        <h2>💖 You Said YES 💖</h2>
-        <p>
-            I’ll remember this moment forever ✨<br>
-            Thank you for choosing this story with me.
-        </p>
-        <h3>Happy Valentine’s Day 🌹</h3>
-    `;
-}
-
-/* ========== CONFETTI ========== */
-function confetti() {
-    for (let i=0;i<160;i++) {
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.style.left = Math.random()*100 + "vw";
-        c.style.background = `hsl(${Math.random()*360},100%,50%)`;
-        c.style.animationDuration = (1.5+Math.random())+"s";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),2200);
-    }
-}
-
-/* ========== HEART BURST ========== */
-function heartBurst() {
-    for (let i=0;i<25;i++)
-        spawnHeart(innerWidth/2 + Math.random()*60-30, innerHeight/2);
-}
-</script>
-
-</body>
-</html>
