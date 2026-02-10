@@ -40,14 +40,6 @@ body {
     z-index: 5;
 }
 
-/* back */
-.back {
-    width: 100%;
-    height: 100%;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
-}
 
 /* flap */
 .flap {
@@ -60,7 +52,7 @@ body {
     top: 0;
     transform-origin: top;
     transition: transform 1s ease;
-    z-index: 6;
+    z-index: 4;
 }
 
 .envelope.open .flap {
@@ -70,24 +62,28 @@ body {
 /* ================== LETTER ================== */
 .letter {
     position: absolute;
-    width: 92%;
-    height: 82%;
+    width: 100%;
+    height: 100%;
     background: #fffdf8;
-    top: 9%;
-    left: 4%;
-    border-radius: 14px;
-    padding: 22px;
+    top: 0;
+    left: 0;
+    border-radius: 16px;
+    padding: 26px 22px;
     text-align: center;
-    transform: translateY(80px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+
+    /* animation */
+    transform: translateY(60px);
     opacity: 0;
     transition: all 1.4s ease;
-    z-index: 5;
+    z-index: 3;
 }
 
 .envelope.open .letter {
-    transform: translateY(-130px);
+    transform: translateY(0);
     opacity: 1;
 }
+
 
 /* ================== STORY ================== */
 #story p {
@@ -155,7 +151,6 @@ button {
 
 <div class="envelope" id="env" onclick="openEnvelope()">
     <div class="flap"></div>
-    <div class="back"></div>
 
     <div class="letter">
         <div id="story"></div>
@@ -168,6 +163,7 @@ button {
         </div>
     </div>
 </div>
+
 
 <script>
 /* ========== HEART UNIVERSE ========== */
@@ -265,3 +261,4 @@ function heartBurst() {
 
 </body>
 </html>
+
