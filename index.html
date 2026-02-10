@@ -2,71 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>A Letter For You 💌</title>
+<title>For You 💖</title>
 
 <style>
-/* ---------- PAGE ---------- */
+/* ================= BASE ================= */
 body {
     margin: 0;
     height: 100vh;
     font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #ffe6eb, #ffb3c1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: radial-gradient(circle at center, #1b1f3b, #090b1a);
     overflow: hidden;
-}
-
-/* ---------- FLOATING HEARTS ---------- */
-.heart {
-    position: absolute;
-    bottom: -30px;
-    font-size: 20px;
-    animation: float 7s linear infinite;
-    opacity: 0.7;
-}
-
-@keyframes float {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-120vh); opacity: 0; }
-}
-
-/* ---------- ENVELOPE ---------- */
-.envelope {
-    width: 320px;
-    height: 220px;
-    position: relative;
     cursor: pointer;
 }
 
-.back {
+/* ================= HEART UNIVERSE ================= */
+.heart {
     position: absolute;
+    font-size: 18px;
+    animation: float 8s linear infinite;
+    opacity: 0.85;
+}
+
+@keyframes float {
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+}
+
+/* ================= ENVELOPE ================= */
+.envelope {
+    width: 340px;
+    height: 230px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 3;
+}
+
+.back {
     width: 100%;
     height: 100%;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    border-radius: 14px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
 }
 
-/* ---------- FLAP ---------- */
 .flap {
     position: absolute;
     width: 0;
     height: 0;
-    border-left: 160px solid transparent;
-    border-right: 160px solid transparent;
-    border-top: 110px solid #ff4d6d;
+    border-left: 170px solid transparent;
+    border-right: 170px solid transparent;
+    border-top: 120px solid #ff4d6d;
     top: 0;
     transform-origin: top;
     transition: transform 1s ease;
-    z-index: 3;
+    z-index: 4;
 }
 
 .envelope.open .flap {
     transform: rotateX(180deg);
 }
 
-/* ---------- LETTER ---------- */
+/* ================= LETTER ================= */
 .letter {
     position: absolute;
     width: 90%;
@@ -74,33 +73,36 @@ body {
     background: #fffdf8;
     top: 10%;
     left: 5%;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    transform: translateY(60px);
+    transform: translateY(70px);
     opacity: 0;
-    transition: all 1.2s ease;
-    z-index: 2;
+    transition: all 1.3s ease;
+    z-index: 3;
 }
 
 .envelope.open .letter {
-    transform: translateY(-90px);
+    transform: translateY(-120px);
     opacity: 1;
 }
 
-h2 {
-    color: #d6336c;
-}
-
-p {
+/* ================= STORY ================= */
+#story p {
     font-size: 16px;
-    color: #555;
-    line-height: 1.6;
+    color: #444;
+    margin: 8px 0;
+    animation: fadeIn 1s ease forwards;
 }
 
-/* ---------- BUTTONS ---------- */
-.buttons {
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= QUESTION ================= */
+#question {
+    display: none;
     margin-top: 15px;
 }
 
@@ -110,21 +112,29 @@ button {
     border-radius: 25px;
     font-size: 15px;
     cursor: pointer;
-    margin: 6px;
+    margin: 8px;
 }
 
 #yes {
     background: #ff4d6d;
     color: white;
-    box-shadow: 0 0 12px rgba(255,77,109,0.6);
+    box-shadow: 0 0 18px rgba(255,77,109,0.8);
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 10px rgba(255,77,109,0.6); }
+    50% { box-shadow: 0 0 28px rgba(255,77,109,1); }
+    100% { box-shadow: 0 0 10px rgba(255,77,109,0.6); }
 }
 
 #no {
     background: #adb5bd;
     color: white;
+    position: relative;
 }
 
-/* ---------- CONFETTI ---------- */
+/* ================= CONFETTI ================= */
 .confetti {
     position: absolute;
     width: 10px;
@@ -133,7 +143,7 @@ button {
 }
 
 @keyframes fall {
-    from { transform: translateY(0) rotate(0); opacity: 1; }
+    from { transform: translateY(0) rotate(0deg); opacity: 1; }
     to { transform: translateY(120vh) rotate(720deg); opacity: 0; }
 }
 </style>
@@ -141,86 +151,103 @@ button {
 
 <body>
 
-<div class="envelope" onclick="openEnvelope()" id="env">
+<div class="envelope" id="env" onclick="openEnvelope()">
     <div class="flap"></div>
     <div class="back"></div>
 
     <div class="letter">
-        <h2>My Dearest 💖</h2>
-        <p>
-            This letter carries all the words<br>
-            I sometimes forget to say aloud.<br><br>
-            You make simple moments magical,<br>
-            And smiles come naturally with you.
-        </p>
+        <div id="story"></div>
 
-        <h3>Will you be my Valentine? 💌</h3>
-
-        <div class="buttons">
-            <button id="yes" onclick="yesClicked(event)">YES 💖</button>
+        <div id="question">
+            <h3>Will you be my Valentine? 💖</h3>
+            <button id="yes" onclick="yesClicked(event)">YES 💘</button>
             <button id="no" onmouseover="moveNo()">NO 😜</button>
         </div>
     </div>
 </div>
 
 <script>
-/* ---------- OPEN ENVELOPE ---------- */
+/* ================= HEART UNIVERSE ================= */
+function spawnHeart(x = Math.random()*innerWidth, y = innerHeight) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = "💖";
+    h.style.left = x + "px";
+    h.style.top = y + "px";
+    h.style.fontSize = (14 + Math.random()*24) + "px";
+    h.style.animationDuration = (5 + Math.random()*5) + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 9000);
+}
+setInterval(() => spawnHeart(), 300);
+
+document.body.addEventListener("click", e => {
+    for (let i=0;i<6;i++)
+        spawnHeart(e.clientX, e.clientY);
+});
+
+/* ================= ENVELOPE ================= */
 function openEnvelope() {
     document.getElementById("env").classList.add("open");
+    showStory();
 }
 
-/* ---------- FLOATING HEARTS ---------- */
-for (let i = 0; i < 16; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.textContent = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (5 + Math.random() * 6) + "s";
-    document.body.appendChild(heart);
+/* ================= STORY MODE ================= */
+const lines = [
+    "Dear You 💌",
+    "This little letter carries something special…",
+    "Moments became warmer,",
+    "Smiles stayed longer,",
+    "And ordinary days felt magical ✨",
+    "All because of you ❤️"
+];
+let i = 0;
+const storyDiv = document.getElementById("story");
+
+function showStory() {
+    if (i < lines.length) {
+        const p = document.createElement("p");
+        p.textContent = lines[i++];
+        storyDiv.appendChild(p);
+        setTimeout(showStory, 1200);
+    } else {
+        document.getElementById("question").style.display = "block";
+    }
 }
 
-/* ---------- NO BUTTON ESCAPE ---------- */
+/* ================= NO BUTTON ================= */
 function moveNo() {
     const no = document.getElementById("no");
-    const x = Math.random() * 100 - 50;
-    const y = Math.random() * 50 - 25;
-    no.style.transform = `translate(${x}px, ${y}px)`;
+    no.style.transform =
+        `translate(${Math.random()*120-60}px, ${Math.random()*60-30}px)`;
 }
 
-/* ---------- YES CLICKED ---------- */
+/* ================= YES ================= */
 function yesClicked(e) {
     e.stopPropagation();
-    launchConfetti();
+    confetti();
 
     document.querySelector(".letter").innerHTML = `
-        <h2>💘 You Said YES 💘</h2>
+        <h2>💖 You Said YES 💖</h2>
         <p>
-            This letter just became my favorite story.<br>
-            Thank you for making my heart smile ❤️
+            This universe just became brighter ✨<br>
+            Thank you for choosing this story with me.
         </p>
         <h3>Happy Valentine’s Day 🌹</h3>
     `;
-
-    // Optional WhatsApp redirect
-    /*
-    setTimeout(() => {
-        window.location.href =
-        "https://wa.me/?text=" + encodeURIComponent("I said YES 💖 Happy Valentine’s Day!");
-    }, 2000);
-    */
 }
 
-/* ---------- CONFETTI ---------- */
-function launchConfetti() {
-    for (let i = 0; i < 120; i++) {
+/* ================= CONFETTI ================= */
+function confetti() {
+    for (let i=0;i<150;i++) {
         const c = document.createElement("div");
         c.className = "confetti";
-        c.style.left = Math.random() * 100 + "vw";
+        c.style.left = Math.random()*100 + "vw";
         c.style.background =
-            `hsl(${Math.random() * 360}, 100%, 50%)`;
-        c.style.animationDuration = (1.4 + Math.random()) + "s";
+            `hsl(${Math.random()*360},100%,50%)`;
+        c.style.animationDuration = (1.5+Math.random())+"s";
         document.body.appendChild(c);
-        setTimeout(() => c.remove(), 2000);
+        setTimeout(()=>c.remove(),2000);
     }
 }
 </script>
