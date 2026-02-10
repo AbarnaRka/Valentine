@@ -2,115 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Be My Valentine 💖</title>
-<!-- force pages rebuild -->
 
 <style>
-body {
-    margin: 0;
-    height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1);
-    background-size: 400% 400%;
-    animation: gradient 10s ease infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    body {
+        margin: 0;
+        height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(-45deg, #ff758c, #ff7eb3, #ff9a9e);
+        background-size: 400% 400%;
+        animation: gradientBG 12s ease infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
 
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-.card {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    max-width: 400px;
-}
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        animation: fadeIn 1.5s ease;
+        z-index: 2;
+    }
 
-h1 {
-    color: #d6336c;
-}
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
 
-p {
-    color: #555;
-    font-size: 16px;
-}
+    h1 {
+        color: #ff4b6e;
+        margin-bottom: 10px;
+    }
 
-.buttons {
-    margin-top: 25px;
-    position: relative;
-}
+    p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
 
-button {
-    padding: 10px 22px;
-    font-size: 16px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    margin: 10px;
-}
+    button {
+        font-size: 18px;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+    }
 
-#yes {
-    background: #ff4d6d;
-    color: white;
-}
+    .yes {
+        background: #25D366;
+        color: white;
+        animation: pulse 1.5s infinite;
+    }
 
-#no {
-    background: #adb5bd;
-    color: white;
-    position: absolute;
-}
+    .yes:hover {
+        box-shadow: 0 0 20px #25D366;
+        transform: scale(1.1);
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.08); }
+        100% { transform: scale(1); }
+    }
+
+    .no {
+        background: #ff4b6e;
+        color: white;
+    }
+
+    .no:hover {
+        animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+
+    .heart {
+        position: absolute;
+        font-size: 24px;
+        animation: float 6s linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes float {
+        from {
+            transform: translateY(100vh) scale(0.8);
+        }
+        to {
+            transform: translateY(-10vh) scale(1.2);
+        }
+    }
 </style>
 </head>
 
 <body>
 
+<!-- Floating hearts -->
+<span class="heart" style="left:10%; animation-delay:0s">❤️</span>
+<span class="heart" style="left:30%; animation-delay:2s">💖</span>
+<span class="heart" style="left:50%; animation-delay:4s">💕</span>
+<span class="heart" style="left:70%; animation-delay:1s">❤️</span>
+<span class="heart" style="left:90%; animation-delay:3s">💘</span>
+
 <div class="card">
-    <h1>Hey ❤️</h1>
-    <p>
-        Roses are red,<br>
-        Violets are blue,<br>
-        Every moment feels special,<br>
-        When it's spent with you 😊
-    </p>
+    <h1>💘 Will you be my Valentine?</h1>
+    <p>You just made this moment special ✨</p>
 
-    <h2>Will you be my Valentine?</h2>
-
-    <div class="buttons">
-        <button id="yes" onclick="yesClicked()">YES 💖</button>
-        <button id="no" onmouseover="moveNo()">NO 😜</button>
-    </div>
+    <button class="yes" onclick="sendWhatsApp()">YES 💚</button>
+    <button class="no">NO 😜</button>
 </div>
 
 <script>
-function yesClicked() {
-    document.body.innerHTML = `
-        <div style="
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-family:'Segoe UI';
-            background:#ffdde1;
-            text-align:center;">
-            <h1>💘 Yay! You made my day! 💘<br>Happy Valentine’s Day 💖</h1>
-        </div>`;
-}
+function sendWhatsApp() {
+    const now = new Date();
+    const time = now.toLocaleString();
 
-function moveNo() {
-    const noBtn = document.getElementById("no");
-    const x = Math.random() * 200 - 100;
-    const y = Math.random() * 200 - 100;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    const message = `YES! 💖 I choose you as my Valentine! 
+This made my day special ✨
+Time: ${time}`;
+
+    const phone = "91XXXXXXXXXX"; // ← Replace with your WhatsApp number
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    window.open(url, "_blank");
 }
 </script>
 
 </body>
 </html>
-
