@@ -2,187 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Be My Valentine 💖</title>
+<title>A Little Story 💖</title>
 
 <style>
+/* ---------- BASE ---------- */
 body {
     margin: 0;
     height: 100vh;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1);
-    background-size: 400% 400%;
-    animation: gradient 12s ease infinite;
+    background: radial-gradient(circle at top, #ffe6eb, #ffb3c1);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
-/* Background gradient animation */
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Floating hearts */
+/* ---------- FLOATING HEARTS ---------- */
 .heart {
     position: absolute;
+    bottom: -30px;
     font-size: 22px;
+    animation: float 7s linear infinite;
     opacity: 0.7;
-    animation: floatUp 8s linear infinite;
 }
 
-@keyframes floatUp {
-    from {
-        transform: translateY(100vh) scale(0.8);
-        opacity: 0;
-    }
-    30% { opacity: 0.8; }
-    to {
-        transform: translateY(-10vh) scale(1.3);
-        opacity: 0;
-    }
+@keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* Card */
+/* ---------- STORY CARD ---------- */
 .card {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
+    background: rgba(255,255,255,0.92);
+    padding: 45px;
+    border-radius: 28px;
+    width: 90%;
+    max-width: 460px;
     text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-    max-width: 420px;
-    animation: popIn 1.4s ease;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
     z-index: 2;
 }
 
-@keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+/* ---------- TEXT ---------- */
+#story {
+    font-size: 18px;
+    color: #444;
+    min-height: 140px;
+    line-height: 1.7;
 }
 
-h1 {
-    color: #d6336c;
-    animation: glow 2s ease-in-out infinite alternate;
+.fade-in {
+    animation: fadeIn 1.2s ease forwards;
 }
 
-@keyframes glow {
-    from { text-shadow: 0 0 5px #ffb3c6; }
-    to { text-shadow: 0 0 15px #ff4d6d; }
-}
-
-p {
-    color: #555;
-    font-size: 16px;
-    line-height: 1.6;
-    margin-top: 15px;
-    animation: fadeUp 1.5s ease;
-}
-
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Valentine question heartbeat */
-h2 {
+/* ---------- QUESTION ---------- */
+#question {
+    display: none;
     margin-top: 25px;
-    color: #ff4d6d;
-    animation: heartbeat 1.5s infinite;
-}
-
-@keyframes heartbeat {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.05); }
-    40% { transform: scale(1); }
-    60% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-}
-
-.buttons {
-    margin-top: 30px;
-    position: relative;
 }
 
 button {
-    padding: 10px 24px;
-    font-size: 16px;
+    padding: 12px 26px;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
+    font-size: 16px;
     cursor: pointer;
     margin: 10px;
-    transition: 0.3s;
 }
 
 #yes {
     background: #ff4d6d;
     color: white;
+    box-shadow: 0 0 15px rgba(255,77,109,0.6);
+    animation: glow 2s infinite;
 }
 
-#yes:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px #ff4d6d;
+@keyframes glow {
+    0% { box-shadow: 0 0 10px rgba(255,77,109,0.5); }
+    50% { box-shadow: 0 0 25px rgba(255,77,109,0.9); }
+    100% { box-shadow: 0 0 10px rgba(255,77,109,0.5); }
 }
 
 #no {
     background: #adb5bd;
     color: white;
+    position: relative;
+}
+
+/* ---------- CONFETTI ---------- */
+.confetti {
     position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: fall 2s linear forwards;
+}
+
+@keyframes fall {
+    from { transform: translateY(0) rotate(0deg); opacity: 1; }
+    to { transform: translateY(120vh) rotate(720deg); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Floating hearts -->
-<span class="heart" style="left:10%; animation-delay:0s">❤️</span>
-<span class="heart" style="left:25%; animation-delay:2s">💖</span>
-<span class="heart" style="left:45%; animation-delay:4s">💕</span>
-<span class="heart" style="left:65%; animation-delay:1s">💘</span>
-<span class="heart" style="left:85%; animation-delay:3s">❤️</span>
-
 <div class="card">
-    <h1>Hey ❤️</h1>
-    <p>
-        Roses are red,<br>
-        Violets are blue,<br>
-        Every moment feels magical,<br>
-        Especially when it's with you ✨
-    </p>
+    <div id="story"></div>
 
-    <h2>Will you be my Valentine?</h2>
-
-    <div class="buttons">
+    <div id="question">
+        <h2>So… 💕</h2>
+        <h3>Will you be my Valentine?</h3>
         <button id="yes" onclick="yesClicked()">YES 💖</button>
         <button id="no" onmouseover="moveNo()">NO 😜</button>
     </div>
 </div>
 
 <script>
-function yesClicked() {
-    document.body.innerHTML = `
-        <div style="
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-family:'Segoe UI';
-            background:#ffdde1;
-            text-align:center;
-            animation: fadeIn 1s ease;">
-            <h1 style="color:#d6336c;">
-                💘 Yay! You just made my heart smile 💘<br>
-                Happy Valentine’s Day 💖
-            </h1>
-        </div>`;
+/* ---------- STORY TEXT ---------- */
+const lines = [
+    "Once upon a moment… ✨",
+    "Two strangers crossed paths,",
+    "And somehow, the ordinary became special.",
+    "Smiles lasted longer.",
+    "Silences felt warmer.",
+    "And days felt brighter…",
+    "Because you were there ❤️"
+];
+
+let index = 0;
+const storyDiv = document.getElementById("story");
+
+function showLine() {
+    if (index < lines.length) {
+        const p = document.createElement("p");
+        p.textContent = lines[index];
+        p.className = "fade-in";
+        storyDiv.appendChild(p);
+        index++;
+        setTimeout(showLine, 1200);
+    } else {
+        document.getElementById("question").style.display = "block";
+    }
 }
 
+showLine();
+
+/* ---------- FLOATING HEARTS ---------- */
+for (let i = 0; i < 18; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 6) + "s";
+    document.body.appendChild(heart);
+}
+
+/* ---------- NO BUTTON ESCAPE ---------- */
 function moveNo() {
-    const noBtn = document.getElementById("no");
-    const x = Math.random() * 220 - 110;
-    const y = Math.random() * 220 - 110;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    const no = document.getElementById("no");
+    const x = Math.random() * 120 - 60;
+    const y = Math.random() * 60 - 30;
+    no.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+/* ---------- YES CLICKED ---------- */
+function yesClicked() {
+    launchConfetti();
+    document.querySelector(".card").innerHTML = `
+        <h1>💘 You said YES! 💘</h1>
+        <p>
+            This moment means more than words can say.<br>
+            Thank you for making this story beautiful ❤️
+        </p>
+        <h2>Happy Valentine’s Day 🌹</h2>
+    `;
+
+    // Optional WhatsApp redirect
+    /*
+    setTimeout(() => {
+        window.location.href =
+        "https://wa.me/?text=" + encodeURIComponent("I said YES 💖 Happy Valentine’s Day!");
+    }, 2000);
+    */
+}
+
+/* ---------- CONFETTI ---------- */
+function launchConfetti() {
+    for (let i = 0; i < 140; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.background =
+            `hsl(${Math.random() * 360}, 100%, 50%)`;
+        c.style.animationDuration = (1.5 + Math.random()) + "s";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 2000);
+    }
 }
 </script>
 
