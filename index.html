@@ -28,61 +28,68 @@ body {
     to { transform: translateY(-120vh) scale(1.7); opacity: 0; }
 }
 
+.scene {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #1b1f3b, #0b0d1a);
+  overflow: hidden;
+}
+
+
 /* ================== CENTER ENVELOPE ================== */
 .envelope {
-    width: 360px;
-    height: 240px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    z-index: 5;
+  position: relative;
+  width: 380px;
+  height: 260px;
+  border-radius: 22px;
+  perspective: 1200px;
 }
+
 
 
 /* flap */
 .flap {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    border-top: 125px solid #ff4d6d;
-    top: 0;
-    transform-origin: top;
-    transition: transform 1s ease;
-    z-index: 4;
+  position: absolute;
+  inset: 0;
+  background: #ff4d6d;
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  transform-origin: top;
+  transition: transform 1.2s ease;
+  z-index: 3;
 }
 
 .envelope.open .flap {
-    transform: rotateX(180deg);
+  transform: rotateX(180deg);
+}
+
+
+.card {
+  display: none !important;
 }
 
 /* ================== LETTER ================== */
 .letter {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #fffdf8;
-    top: 0;
-    left: 0;
-    border-radius: 16px;
-    padding: 26px 22px;
-    text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+  position: absolute;
+  inset: 0;
+  background: #fffdf8;
+  border-radius: 20px;
+  padding: 26px;
+  text-align: center;
 
-    /* animation */
-    transform: translateY(60px);
-    opacity: 0;
-    transition: all 1.4s ease;
-    z-index: 3;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 1.4s cubic-bezier(.22,.61,.36,1);
+
+  z-index: 2;
 }
 
 .envelope.open .letter {
-    transform: translateY(0);
-    opacity: 1;
+  transform: translateY(0);
+  opacity: 1;
 }
+
 
 
 /* ================== STORY ================== */
@@ -149,20 +156,23 @@ button {
 
 <body>
 
-<div class="envelope" id="env" onclick="openEnvelope()">
+<div class="scene">
+  <div class="envelope" id="envelope">
+    
     <div class="flap"></div>
 
     <div class="letter">
-        <div id="story"></div>
+      <div class="letter-content">
+        <p>I’ll remember this moment forever 💖</p>
+        <p>Thank you for choosing this story with me.</p>
 
-        <div id="question">
-            <h3>So tell me… 💖</h3>
-            <h3>Will you be my Valentine?</h3>
-            <button id="yes" onclick="yesClicked(event)">YES 💘</button>
-            <button id="no" onmouseover="moveNo()">NO 😜</button>
-        </div>
+        <h2>Happy Valentine’s Day 🌹</h2>
+      </div>
     </div>
+
+  </div>
 </div>
+
 
 
 <script>
@@ -261,4 +271,5 @@ function heartBurst() {
 
 </body>
 </html>
+
 
