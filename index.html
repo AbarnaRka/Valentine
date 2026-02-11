@@ -5,121 +5,95 @@
 <title>Just For You 💖</title>
 
 <style>
-/* ===== GLOBAL ===== */
 body {
     margin: 0;
     height: 100vh;
     font-family: 'Segoe UI', sans-serif;
     background: radial-gradient(circle at center, #1a1d3b, #080a18);
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* ===== FLOATING HEARTS ===== */
+/* Floating hearts */
 .heart {
     position: absolute;
     font-size: 18px;
-    opacity: 0.8;
-    animation: float 9s linear infinite;
+    animation: float 8s linear infinite;
 }
 @keyframes float {
     from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-120vh); opacity: 0; }
+    to { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* ===== ENVELOPE ===== */
+/* Envelope container */
 .envelope {
-    width: 360px;
-    height: 240px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    width: 380px;
+    height: 260px;
     cursor: pointer;
 }
 
-/* envelope body */
-.env-body {
+/* Envelope base */
+.env-base {
     position: absolute;
     width: 100%;
     height: 100%;
     background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    border-radius: 15px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
     z-index: 1;
 }
 
-/* side folds */
-.env-left,
-.env-right {
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 0;
-    border-top: 120px solid transparent;
-    border-bottom: 120px solid transparent;
-    z-index: 2;
-}
-
-.env-left {
-    left: 0;
-    border-right: 180px solid #f1f1f1;
-}
-
-.env-right {
-    right: 0;
-    border-left: 180px solid #f1f1f1;
-}
-
-/* top flap */
+/* Flap */
 .env-flap {
     position: absolute;
-    top: 0;
-    width: 0;
-    height: 0;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    border-top: 120px solid #ff4d6d;
+    width: 100%;
+    height: 130px;
+    background: #ff4d6d;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
     transform-origin: top;
     transition: transform 1s ease;
-    z-index: 4;
-}
-
-/* letter */
-.letter {
-    position: absolute;
-    width: 90%;
-    height: 80%;
-    left: 5%;
-    top: 10%;
-    background: #fffdf8;
-    border-radius: 14px;
-    padding: 18px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 1.2s ease;
     z-index: 3;
 }
 
-/* OPEN STATE */
+/* Letter */
+.letter {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    height: 220px;
+    background: #fffdf8;
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    top: 20px;
+    transform: translateY(0);
+    transition: transform 1s ease;
+    z-index: 2;
+    overflow-y: auto;
+}
+
+/* OPEN animation */
 .envelope.open .env-flap {
     transform: rotateX(180deg);
 }
 
 .envelope.open .letter {
-    opacity: 1;
+    transform: translateY(-200px);
 }
 
-/* ===== STORY ===== */
+/* Text styling */
 #story p {
-    color: #444;
-    font-size: 16px;
     margin: 6px 0;
+    color: #444;
 }
 
-/* ===== QUESTION ===== */
 #question {
     display: none;
-    margin-top: 12px;
+    margin-top: 15px;
 }
 
 button {
@@ -133,13 +107,13 @@ button {
 
 #yes {
     background: #ff4d6d;
-    color: #fff;
+    color: white;
     box-shadow: 0 0 20px rgba(255,77,109,0.8);
 }
 
 #no {
     background: #adb5bd;
-    color: #fff;
+    color: white;
 }
 </style>
 </head>
@@ -148,9 +122,7 @@ button {
 
 <div class="envelope" id="env" onclick="openEnvelope()">
     <div class="env-flap"></div>
-    <div class="env-left"></div>
-    <div class="env-right"></div>
-    <div class="env-body"></div>
+    <div class="env-base"></div>
 
     <div class="letter">
         <div id="story"></div>
@@ -164,7 +136,7 @@ button {
 </div>
 
 <script>
-/* HEARTS */
+/* Floating hearts */
 function spawnHeart() {
     const h = document.createElement("div");
     h.className = "heart";
@@ -172,11 +144,11 @@ function spawnHeart() {
     h.style.left = Math.random()*innerWidth + "px";
     h.style.top = innerHeight + "px";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),9000);
+    setTimeout(()=>h.remove(),8000);
 }
 setInterval(spawnHeart, 300);
 
-/* OPEN */
+/* Open envelope */
 let opened = false;
 function openEnvelope() {
     if (opened) return;
@@ -185,7 +157,7 @@ function openEnvelope() {
     showStory();
 }
 
-/* STORY */
+/* Story animation */
 const lines = [
     "Hey You 💌",
     "I wanted to say this properly…",
@@ -195,6 +167,7 @@ const lines = [
     "And moments feel… right ✨",
     "So I was wondering ❤️"
 ];
+
 let i = 0;
 const storyDiv = document.getElementById("story");
 
@@ -203,20 +176,20 @@ function showStory() {
         const p = document.createElement("p");
         p.textContent = lines[i++];
         storyDiv.appendChild(p);
-        setTimeout(showStory, 1000);
+        setTimeout(showStory, 900);
     } else {
         document.getElementById("question").style.display = "block";
     }
 }
 
-/* NO button */
+/* NO button moves */
 function moveNo() {
     const no = document.getElementById("no");
-    no.style.transform =
-        `translate(${Math.random()*120-60}px, ${Math.random()*40-20}px)`;
+    no.style.position = "relative";
+    no.style.left = (Math.random()*150 - 75) + "px";
 }
 
-/* YES */
+/* YES clicked */
 function yesClicked(e) {
     e.stopPropagation();
     document.querySelector(".letter").innerHTML = `
