@@ -1,165 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Just For You 💖</title>
+<title>Be My Valentine 💖</title>
 
 <style>
 body {
     margin: 0;
     height: 100vh;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #141e30, #243b55);
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
-/* Floating hearts */
-.heart {
-    position: absolute;
-    font-size: 20px;
-    opacity: 0.2;
-    animation: float 12s linear infinite;
-}
-@keyframes float {
-    from { transform: translateY(0); }
-    to { transform: translateY(-110vh); }
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* Start Button */
-#startBtn {
-    padding: 15px 40px;
-    font-size: 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    background: white;
-    color: #111;
-    box-shadow: 0 0 30px rgba(255,255,255,0.4);
-    transition: 0.3s ease;
-}
-#startBtn:hover {
-    transform: scale(1.05);
-}
-
-/* Card */
 .card {
-    position: absolute;
-    width: 500px;
     background: white;
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.8s ease;
     text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    max-width: 400px;
 }
 
-.card.show {
-    opacity: 1;
-    transform: scale(1);
+h1 {
+    color: #d6336c;
 }
 
-.card h2 {
-    margin-top: 0;
-}
-
-#question {
-    margin-top: 20px;
-    display: none;
-}
-
-button.option {
-    padding: 10px 30px;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
+p {
+    color: #555;
     font-size: 16px;
+}
+
+.buttons {
+    margin-top: 25px;
+    position: relative;
+}
+
+button {
+    padding: 10px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
     margin: 10px;
-    transition: 0.3s ease;
 }
 
 #yes {
     background: #ff4d6d;
     color: white;
 }
-#yes:hover {
-    transform: scale(1.1);
-}
 
 #no {
-    background: #ccc;
-    color: black;
+    background: #adb5bd;
+    color: white;
+    position: absolute;
 }
 </style>
 </head>
 
 <body>
 
-<button id="startBtn">Tap to Begin 💌</button>
-
-<div class="card" id="card">
-    <h2>Hey You 💖</h2>
+<div class="card">
+    <h1>Hey ❤️</h1>
     <p>
-        I wanted to say this properly… <br><br>
-        Somehow, days feel warmer with you. <br>
-        Smiles come easier. <br>
-        Silences feel comfortable. <br><br>
-        And moments feel… right ✨
+        Roses are red,<br>
+        Violets are blue,<br>
+        Every moment feels special,<br>
+        When it's spent with you 😊
     </p>
 
-    <div id="question">
-        <h3>Will you be my Valentine? 💘</h3>
-        <button id="yes" class="option">YES 💖</button>
-        <button id="no" class="option">NO 😜</button>
+    <h2>Will you be my Valentine?</h2>
+
+    <div class="buttons">
+        <button id="yes" onclick="yesClicked()">YES 💖</button>
+        <button id="no" onmouseover="moveNo()">NO 😜</button>
     </div>
 </div>
 
 <script>
-/* Floating hearts */
-function spawnHeart() {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.textContent = "💖";
-    h.style.left = Math.random()*window.innerWidth + "px";
-    h.style.top = window.innerHeight + "px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),12000);
+function yesClicked() {
+    document.body.innerHTML = `
+        <div style="
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:'Segoe UI';
+            background:#ffdde1;
+            text-align:center;">
+            <h1>💘 Yay! You made my day! 💘<br>Happy Valentine’s Day 💖</h1>
+        </div>`;
 }
-setInterval(spawnHeart, 1000);
 
-/* Start */
-const startBtn = document.getElementById("startBtn");
-const card = document.getElementById("card");
-const question = document.getElementById("question");
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
-
-startBtn.onclick = function() {
-    startBtn.style.display = "none";
-    card.classList.add("show");
-    setTimeout(()=> {
-        question.style.display = "block";
-    }, 1500);
-};
-
-/* Move NO button */
-noBtn.onmouseover = function() {
-    noBtn.style.position = "relative";
-    noBtn.style.left = (Math.random()*200 - 100) + "px";
-};
-
-/* YES click */
-yesBtn.onclick = function() {
-    card.innerHTML = `
-        <h2>💖 You Said YES 💖</h2>
-        <p>This just made my day brighter ✨</p>
-        <h3>Happy Valentine's Day 🌹</h3>
-    `;
-};
+function moveNo() {
+    const noBtn = document.getElementById("no");
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
 </script>
 
 </body>
